@@ -53,7 +53,7 @@ def bellmanFord(numberOfNodes: int, edges: list, source: int) -> tuple:
       - If a negative cycle reachable from source is found: dist=None, pred=None, negCycle is a list of nodes forming the cycle
     """
 
-    # Initialize
+    #Initailize DP dist list, predecessor list. Distance from source (base case) is 0.
     dist = [float('inf')] * numberOfNodes
     pred = [None] * numberOfNodes
     dist[source] = 0
@@ -66,7 +66,8 @@ def bellmanFord(numberOfNodes: int, edges: list, source: int) -> tuple:
         for source, destination, weight in edges:
 
             if 0 <= source < numberOfNodes and 0 <= destination < numberOfNodes and dist[source] != float('inf'):
-
+                
+                #Better result found -> update dist list.
                 if dist[source] + weight < dist[destination]:
 
                     dist[destination] = dist[source] + weight
@@ -75,8 +76,8 @@ def bellmanFord(numberOfNodes: int, edges: list, source: int) -> tuple:
 
         if not changed:
             break
-
-    # Check for negative-weight cycles reachable from source
+    
+    #We must now check for negative-weight cycles. (hardest part of algo)
     negCycle = None
     for source, destination, weight in edges:
         if 0 <= source < numberOfNodes and 0 <= destination < numberOfNodes and dist[source] != float('inf') and dist[source] + weight < dist[destination]:
@@ -118,7 +119,7 @@ def bellmanFord(numberOfNodes: int, edges: list, source: int) -> tuple:
             cycle.reverse()
             negCycle = cycle
 
-            # Per spec, on detection return None, None, cycle
+            # Change dist and pred to None as that's what test output demands.
             dist = None
             pred = None
             break

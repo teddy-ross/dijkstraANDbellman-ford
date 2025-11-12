@@ -41,7 +41,7 @@ def getTestCaseInput() -> list:
     return [numberOfNodes, numberOfEdges, edges, source]
 
 """
-Runs Dijkstra's Algorithm Given n node, m edges, and source node
+Runs Dijkstra's Algorithm Given n nodes, m edges, and source node
 
 Args: 
     None
@@ -57,25 +57,21 @@ def dijkstra() -> tuple:
     for source, destination, weight in edges:
         graph[source].append((destination, weight))
 
-    #Intialize a minHeap (to process shortest distance first) with a tuple (time to reach node, node) and a dictionary to keep track of the current shortest distance from source -> node
+    #Intialize a minHeap (to process shortest distance first) with a tuple (time to reach node, node) and a 'visited' dictionary to keep track of the current shortest distance from source -> node
     # distances: best known distances (tentative then final)
+    # prdecessor list to keep track of predecessors
     dist = [float('inf')] * numberOfNodes
     dist[sourceNode] = 0
-
-    #Intialize a list to keep track of predecessor nodes.
     predecessors = [None] * numberOfNodes
-
-    #We intialize a minheap of (dist, node) to make sure we process shortest distances first, as well as a visited dictionary to keep track of which nodes have been finalized (visited) (O(1) lookup time)
     minHeap = [(0, sourceNode)]
-
-    #node : shortest distance from source to node
     visited = {}
+
 
     while minHeap:
         distance, node = heapq.heappop(minHeap)
 
         # If the node has already been visited (finalized), skip it.
-        # Use dict.get to avoid KeyError for nodes not yet seen in the dict.
+        # Use dict.get to avoid KeyError for nodes not yet seen in the dict. (could also use default dict)
         if visited.get(node):
             continue
 
