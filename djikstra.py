@@ -82,6 +82,8 @@ def dijkstra() -> tuple:
             continue
 
         for destination, weight in graph[node]:
+            if weight < 0:
+                raise ValueError("Dijkstra's algorithm does not support negative edge weights.")
             if destination < 0 or destination >= numberOfNodes:
                 continue
             new_dist = distance + weight
